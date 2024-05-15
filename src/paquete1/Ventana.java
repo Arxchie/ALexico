@@ -4,6 +4,16 @@
  */
 package paquete1;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author HP
@@ -33,10 +43,10 @@ public class Ventana extends javax.swing.JFrame
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtSalida = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        txtEntrada = new javax.swing.JTextArea();
+        boton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -53,22 +63,22 @@ public class Ventana extends javax.swing.JFrame
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("SALIDA");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtSalida.setColumns(20);
+        txtSalida.setLineWrap(true);
+        txtSalida.setRows(5);
+        jScrollPane1.setViewportView(txtSalida);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        txtEntrada.setColumns(20);
+        txtEntrada.setLineWrap(true);
+        txtEntrada.setRows(5);
+        jScrollPane2.setViewportView(txtEntrada);
 
-        jButton1.setText("Compilar");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
+        boton.setText("Compilar");
+        boton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton1ActionPerformed(evt);
+                botonActionPerformed(evt);
             }
         });
 
@@ -92,7 +102,7 @@ public class Ventana extends javax.swing.JFrame
                 .addGap(50, 50, 50))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(422, 422, 422)
-                .addComponent(jButton1)
+                .addComponent(boton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -107,7 +117,7 @@ public class Ventana extends javax.swing.JFrame
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(boton)
                 .addGap(14, 14, 14))
         );
 
@@ -136,10 +146,58 @@ public class Ventana extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
-    {//GEN-HEADEREND:event_jButton1ActionPerformed
+    private void botonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_botonActionPerformed
+    {//GEN-HEADEREND:event_botonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        File archivo= new File("Archivo.txt");
+        PrintWriter escribir;
+        try
+        {
+            escribir = new PrintWriter(archivo);
+            escribir.print(txtEntrada.getText());
+            escribir.close();
+        } catch (FileNotFoundException ex)
+        {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try
+        {
+            Reader lector = new BufferedReader(new FileReader("Archivo.txt"));
+            aLexico lexer = new aLexico(lector);
+            String resultado= "";
+            while (true)
+            {
+                Tokens tokens= lexer.yylex();
+                if (tokens==null)
+                {
+                    resultado+= "FIN";
+                    txtSalida.setText(resultado);
+                    return ;
+                }
+                switch (tokens)
+                {
+                    case Suma:
+                   
+                    case Resta:
+                        
+                    case Multiplicacion:
+                       
+                    case Division:
+                         resultado+=lexer.lexema+ "es un "+tokens+"\n";
+                        break;
+                    default:
+                        resultado += "Token no definido \n"+tokens;
+                        
+                }
+            }
+        } catch (FileNotFoundException ex)
+        {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,7 +248,7 @@ public class Ventana extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton boton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
@@ -199,7 +257,7 @@ public class Ventana extends javax.swing.JFrame
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea txtEntrada;
+    private javax.swing.JTextArea txtSalida;
     // End of variables declaration//GEN-END:variables
 }
