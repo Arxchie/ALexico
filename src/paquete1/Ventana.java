@@ -149,7 +149,7 @@ public class Ventana extends javax.swing.JFrame
     private void botonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_botonActionPerformed
     {//GEN-HEADEREND:event_botonActionPerformed
         // TODO add your handling code here:
-        File archivo= new File("Archivo.txt");
+        File archivo = new File("Archivo.txt");
         PrintWriter escribir;
         try
         {
@@ -164,31 +164,27 @@ public class Ventana extends javax.swing.JFrame
         {
             Reader lector = new BufferedReader(new FileReader("Archivo.txt"));
             aLexico lexer = new aLexico(lector);
-            String resultado= "";
+            String resultado = "";
             while (true)
             {
-                Tokens tokens= lexer.yylex();
-                if (tokens==null)
+                Tokens tokens = lexer.yylex();
+                if (tokens == null)
                 {
-                    resultado+= "FIN";
+                    resultado += "FIN";
                     txtSalida.setText(resultado);
-                    return ;
-                }
-                switch (tokens)
+                    break;
+                } else
                 {
-                    case Suma:
-                   
-                    case Resta:
+                    resultado += "  "+lexer.lexema;
+                   for(int i=0;i<20-lexer.lexema.length();i++)
+                   {
+                       resultado += " ";
                         
-                    case Multiplicacion:
-                       
-                    case Division:
-                         resultado+=lexer.lexema+ "es un "+tokens+"\n";
-                        break;
-                    default:
-                        resultado += "Token no definido \n"+tokens;
-                        
+                   }
+                   resultado+="<" + tokens + ">\n";
+
                 }
+
             }
         } catch (FileNotFoundException ex)
         {

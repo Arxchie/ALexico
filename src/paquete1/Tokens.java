@@ -10,14 +10,12 @@ package paquete1;
  */
 public enum Tokens
 {
-    Suma,
-    Resta,
-    Multiplicacion,
-    Division,
-    Igual,
-    ID,
-    ENTERO,
-    REAL,
-    BOOL
+    suma, resta, multiplicacion, division, igual, diferente, menor, menorIgual, 
+    mayor, mayorIgual, asignacion, yLogico, oLogico, negacion, 
+    condicionIf, condicionElse, bucleWhile, bucleFor, bucleDo, 
+    retorno, interrupcion, continuar, seleccionSwitch, casoSwitch, predeterminadoSwitch, 
+    pApertura, pCierre, llaveApertura, llaveCierre, puntoComa, coma, 
+    id, numero
+    
     
 }
